@@ -137,9 +137,9 @@
 		style.sources.basemap.tiles = style.sources.basemap.tiles.map((s: string) => {
 			return s.replace('@basemapOrigin@', basemapOrigin);
 		});
-		// style.sources.route.tiles = style.sources.route.tiles.map((s: string) => {
-		// 	return s.replace('@routeOrigin@', routeOrigin);
-		// });
+		style.sources.route.tiles = style.sources.route.tiles.map((s: string) => {
+			return s.replace('@basemapOrigin@', basemapOrigin);
+		});
 		style.sprite = style.sprite.replace('@staticOrigin@', staticOrigin);
 		style.glyphs = style.glyphs.replace('@staticOrigin@', staticOrigin);
 
@@ -216,37 +216,37 @@
 					updateFeatureInfo();
 					map.flyTo({
 						center: clickedSourceFeature.geometry.coordinates,
-						zoom: 13
+						zoom: 20
 					});
 				}
 			});
 
 			// Route_midpoint
-			// map.on('click', (e) => {
-			// 	let renderedSourceFeatures = map.queryRenderedFeatures(e.point, {
-			// 		layers: ['route_midpoint']
-			// 	});
-			// 	if (!renderedSourceFeatures.length) return;
-			// 	else {
-			// 		clickedSourceFeature = renderedSourceFeatures[0];
-			// 		console.log('clickedSourceFeature', clickedSourceFeature);
-			// 		clickedDataSetFeature = getDataSetFeatureFromID(
-			// 			filteredRouteDataSetFeatures,
-			// 			clickedSourceFeature.properties.id
-			// 		);
-			// 		const { id, type, bbox, members } = clickedDataSetFeature;
-			// 		console.log('clickedDataSetFeature', clickedDataSetFeature);
-			// 		const routeData = {
-			// 			id: id,
-			// 			type: type,
-			// 			bbox: bbox,
-			// 			zoom: 14
-			// 		};
-			// 		const filterWayMembers = ['in', ['id'], ['literal', members]];
-			// 		const filterRelation = ['==', 'id', id];
-			// 		toggleRouteAndSetMapViewFromFilter(map, filterWayMembers, filterRelation, bbox);
-			// 	}
-			// });
+			map.on('click', (e) => {
+				let renderedSourceFeatures = map.queryRenderedFeatures(e.point, {
+					layers: ['route_midpoint']
+				});
+				if (!renderedSourceFeatures.length) return;
+				else {
+					clickedSourceFeature = renderedSourceFeatures[0];
+					console.log('clickedSourceFeature', clickedSourceFeature);
+					clickedDataSetFeature = getDataSetFeatureFromID(
+						filteredRouteDataSetFeatures,
+						clickedSourceFeature.properties.id
+					);
+					const { id, type, bbox, members } = clickedDataSetFeature;
+					console.log('clickedDataSetFeature', clickedDataSetFeature);
+					const routeData = {
+						id: id,
+						type: type,
+						bbox: bbox,
+						zoom: 14
+					};
+					const filterWayMembers = ['in', ['id'], ['literal', members]];
+					const filterRelation = ['==', 'id', id];
+					toggleRouteAndSetMapViewFromFilter(map, filterWayMembers, filterRelation, bbox);
+				}
+			});
 
 			// Add zoom event listener to the map
 			map.on('zoom', () => {

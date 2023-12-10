@@ -6,7 +6,12 @@
     "basemap": {
       "type": "vector",
       "tiles": ["@basemapOrigin@/basemap/{z}/{x}/{y}.pbf"]
-  }
+  },
+      "route": {
+        "type": "vector",
+        "tiles": ["@basemapOrigin@/route/{z}/{x}/{y}.pbf"]
+    }
+    
   },
   "glyphs": "@staticOrigin@/glyphs/{fontstack}/{range}.pbf",
   "sprite": "@staticOrigin@/sprites/busyplanet",
@@ -2702,7 +2707,7 @@
       "source": "basemap",
       "source-layer": "poi",
       "metadata": {"switch": true},
-      "minzoom": 14,
+      "minzoom": 10,
       "filter": [
         "all",
         ["==", "$type", "Point"],
@@ -2722,7 +2727,7 @@
       "source": "basemap",
       "source-layer": "poi",
       "metadata": {"switch": true},
-      "minzoom": 6,
+      "minzoom": 11,
       "filter": [
         "all",
         ["==", "$type", "Point"],
@@ -2742,7 +2747,7 @@
       "source": "basemap",
       "source-layer": "poi",
       "metadata": {"switch": true},
-      "minzoom": 13,
+      "minzoom": 14,
       "filter": [
         "all",
         ["==", "$type", "Point"],
@@ -3330,6 +3335,72 @@
           "base": 1,
           "stops": [ [8, 1.1], [20, 10] ]
         }
+      }
+    },
+    {
+      "id": "route_midpoint",
+      "type": "symbol",
+      "source": "route",
+      "source-layer": "route_midpoint",
+      "metadata": {"switch": true},
+      "minzoom": 1,
+      "layout": {"icon-image": "globe", "visibility": "visible"}
+    },
+    {
+      "id": "selected_route",
+      "type": "line",
+      "source": "route",
+      "source-layer": "route",
+      "metadata": {"switch": false},
+      "filter": [
+        "in",
+        ["id"],
+        [ "literal", [0] ]
+      ],
+      "paint": {
+        "line-color": [
+          "match",
+          ["get", "subclass"],
+          "hiking",
+          "#6CB05C",
+          "foot",
+          "#0084FF",
+          "bicycle",
+          "#A349A4",
+          "mtb",
+          "#8B4513",
+          "running",
+          "#FF5733",
+          "canoe",
+          "#FFD700",
+          "gray"
+        ],
+        "line-width": 3
+      }
+    },
+    {
+      "id": "selected_route_name",
+      "type": "symbol",
+      "source": "route",
+      "source-layer": "route",
+      "metadata": {"switch": false},
+      "filter": [
+        "in",
+        ["id"],
+        [ "literal", [0] ]
+      ],
+      "minzoom": 1,
+      "layout": {
+        "symbol-placement": "line",
+        "text-field": "{name}",
+        "text-font": ["Noto Sans Regular"],
+        "text-rotation-alignment": "map"
+      },
+      "paint": {
+        "text-color": "black",
+        "text-halo-blur": 0.5,
+        "text-halo-color": "rgba(255,255,255,0.8)",
+        "text-halo-width": 1.2
       }
     },
     {
