@@ -464,6 +464,7 @@
       "type": "fill",
       "source": "basemap",
       "source-layer": "building",
+      "minzoom":13.1,
       "metadata": {"switch": false,"color":true},
       "paint": {
         "fill-antialias": true,
@@ -2475,7 +2476,8 @@
       "source-layer": "label",
       "metadata": {"switch": false},
       "filter": [ "all", ["==", "class", "housenumber"] ],
-      "minzoom": 14,
+      "minzoom": 16.9,
+      "maxzoom":22,
       "layout": {
         "text-font": ["Noto Sans Regular"],
         "text-size": 10,
@@ -2702,6 +2704,46 @@
       "layout": {"icon-image": "{icon}", "visibility": "visible"}
     },
     {
+      "id": "poi-attraction",
+      "type": "symbol",
+      "source": "basemap",
+      "source-layer": "poi",
+      "metadata": {"switch": true},
+      "minzoom": 12.1,
+      "filter": [
+        "all",
+        ["==", "$type", "Point"],
+        ["==", "class", "attraction"]
+      ],
+      "layout": {"icon-image": "{icon}", "visibility": "visible"},
+      "paint": {
+        "text-color": "#666",
+        "text-halo-blur": 0.5,
+        "text-halo-color": "#ffffff",
+        "text-halo-width": 1
+      }
+    },
+    {
+      "id": "poi-peak",
+      "type": "symbol",
+      "source": "basemap",
+      "source-layer": "poi",
+      "metadata": {"switch": true},
+      "minzoom": 10,
+      "filter": [
+        "all",
+        ["==", "$type", "Point"],
+        ["==", "class", "natural"]
+      ],
+      "layout": {"icon-image": "{icon}", "visibility": "visible"},
+      "paint": {
+        "text-color": "#666",
+        "text-halo-blur": 0.5,
+        "text-halo-color": "#ffffff",
+        "text-halo-width": 1
+      }
+    },
+    {
       "id": "poi-food_and_drink",
       "type": "symbol",
       "source": "basemap",
@@ -2747,7 +2789,7 @@
       "source": "basemap",
       "source-layer": "poi",
       "metadata": {"switch": true},
-      "minzoom": 14,
+      "minzoom": 14.1,
       "filter": [
         "all",
         ["==", "$type", "Point"],
@@ -2767,7 +2809,7 @@
       "source": "basemap",
       "source-layer": "poi",
       "metadata": {"switch": true},
-      "minzoom": 13,
+      "minzoom": 13.1,
       "filter": [
         "all",
         ["==", "$type", "Point"],
@@ -3389,7 +3431,7 @@
         ["id"],
         [ "literal", [0] ]
       ],
-      "minzoom": 1,
+      "minzoom": 5,
       "layout": {
         "symbol-placement": "line",
         "text-field": "{name}",
