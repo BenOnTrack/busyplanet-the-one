@@ -2,6 +2,7 @@ import { browser } from '$app/environment';
 import Dexie from 'dexie';
 
 interface Tile {
+    source: string,
     x: number,
     y: number,
     z: number,
@@ -21,7 +22,7 @@ class MyAppDatabase extends Dexie {
     constructor(dbName: string) {
         super(dbName);
         this.version(1).stores({
-            mapTiles: '&[z+x+y]',
+            mapTiles: '&[source+z+x+y]',
             downloadStatus: '&file'
         });
         // The following line is needed if your typescript

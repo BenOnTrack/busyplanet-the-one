@@ -24,20 +24,39 @@
 		getAllBookmarks
 	} from '$lib/bookmarks/bookmarkdb';
 
+	function getSourceFromProtocol(url:string) {
+  // Extract the source ID from the input property
+  const match = url.match(/mbtiles:\/\/[^/]+\/([^/]+)\/[0-9]+\/[0-9]+\/[0-9]+\.pbf/);
+
+  // If a match is found, return the source ID, otherwise return null
+  return match ? match[1] : null;
+}
+
+// // Example usage
+// const url = 'mbtiles://localhost:5173/basemap/15/32336/20010.pbf';
+// const sourceId = getSourceIdFromUrl(url);
+
 	let bookmarks: number[] = [];
 	if (browser) {
 		tileDatabase?.on('ready', () => {
 			maplibre.addProtocol('mbtiles', (params, callback) => {
-				const filePath = params.url.split('://')[1];
-				const arg = params.url.match(/\/([0-9]+)\/([0-9]+)\/([0-9]+)\.pbf/);
-				if (arg?.length != 4) return callback(new Error(`Tile fetch error: bad params`));
-				const z = parseInt(arg[1]);
-				const x = parseInt(arg[2]);
-				const y = parseInt(arg[3]);
-
+				// params is filled when maplibre makes a request for a tile from style.json
+				const url = params.url
+				const zxy = params.url.match(/\/([0-9]+)\/([0-9]+)\/([0-9]+)\.pbf/);
+				if (zxy?.length != 4) return callback(new Error(`Tile fetch error: bad params`));
+				const source=getSourceFromProtocol(url)
+				const z = parseInt(zxy[1]);
+				const x = parseInt(zxy[2]);
+				const y = parseInt(zxy[3]);
+				console.log("source",source)
+				console.log("z",z)
+				console.log("y",y)
+				console.log("x",x)
+				const query=`[${source}+z+x+y]`
+				console.log("query",query)
 				const dxres = tileDatabase.mapTiles
-					.where('[z+x+y]')
-					.equals([z, x, y])
+					.where('[source+z+x+y]')
+					.equals([source, z, x, y])
 					.toArray()
 					.then((e) => {
 						if (e.length == 1) {

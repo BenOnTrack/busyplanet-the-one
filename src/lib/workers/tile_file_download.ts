@@ -3,6 +3,15 @@ import JSZip from "jszip";
 import { base } from '$app/paths';
 import tileDatabase from '$lib/tile_database';
 
+function getSourceFromUrl(url:string) {
+    // Extract the source ID from the file string
+    const match = url.match(/\/([^/]+)_[^/]+\.zip/);
+  
+    // If a match is found, return the source ID, otherwise return null
+    return match ? match[1] : null;
+  }
+  
+
 class DownloadWorker implements TileDownloadWorker {
     async download(url: string): Promise<boolean> {
         let zipFile: JSZip = new JSZip();
@@ -16,13 +25,14 @@ class DownloadWorker implements TileDownloadWorker {
             const arg = file.match(/([0-9]+)\/([0-9]+)\/([0-9]+)\.pbf/);
             if (arg?.length != 4)
                 continue;
+            const source = getSourceFromUrl(url)
             const z = parseInt(arg[1]);
             const x = parseInt(arg[2]);
             const y = parseInt(arg[3]);
 
             const content = result.files[file];
             const data = await content.async('arraybuffer');
-            tileDatabase!.mapTiles.put({ z, x, y, data });
+            tileDatabase!.mapTiles.put({ source, z, x, y, data });
         }
         return true;
     }
