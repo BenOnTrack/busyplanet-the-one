@@ -56,7 +56,7 @@
 				console.log("query",query)
 				const dxres = tileDatabase.mapTiles
 					.where('[source+z+x+y]')
-					.equals([source, z, x, y])
+					.equals([`${source}_nz`, z, x, y])
 					.toArray()
 					.then((e) => {
 						if (e.length == 1) {
@@ -187,8 +187,9 @@
 			container: mapContainer,
 			style: style,
 			center: [lon, lat],
-			maxTileCacheSize: 5000,
+			// maxTileCacheSize: 5000,
 			refreshExpiredTiles: false,
+			doubleClickZoom: false,
 			maxBounds: bounds
 		});
 
@@ -216,7 +217,9 @@
 					updateFeatureInfo();
 					map.flyTo({
 						center: clickedSourceFeature.geometry.coordinates,
-						zoom: 20
+						zoom: 20,
+						essential: true,
+						duration: 7000,
 					});
 				}
 			});

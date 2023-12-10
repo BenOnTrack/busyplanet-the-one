@@ -5,7 +5,7 @@ import tileDatabase from '$lib/tile_database';
 
 function getSourceFromUrl(url:string) {
     // Extract the source ID from the file string
-    const match = url.match(/\/([^/]+)_[^/]+\.zip/);
+    const match = url.match(/\/([^/]+)\.zip/); //url.match(/\/([^/]+)_[^/]+\.zip/);
   
     // If a match is found, return the source ID, otherwise return null
     return match ? match[1] : null;
