@@ -25,7 +25,7 @@
 		});
   
 		// List of files to download and cache
-		const files = ['/basemap_nz.zip', '/route_nz.zip'];
+		const files = ['/basemap_nz_1.zip','/basemap_nz_2.zip', '/route_nz.zip'];
   
 		// Iterate through the list of files
 		for (const file of files) {

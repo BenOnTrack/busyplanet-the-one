@@ -4,6 +4,9 @@ import { viteCommonjs } from '@originjs/vite-plugin-commonjs';
 
 /** @type {import('vite').UserConfig} */
 const config = {
+	server:{
+		port:5173
+	},
 	worker: {
 		plugins: [sveltekit()],
 		format: 'es',

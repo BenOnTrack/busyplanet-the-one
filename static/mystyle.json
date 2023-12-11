@@ -2476,12 +2476,31 @@
       "source-layer": "label",
       "metadata": {"switch": false},
       "filter": [ "all", ["==", "class", "housenumber"] ],
-      "minzoom": 16.9,
-      "maxzoom":22,
+      "minzoom": 14,
       "layout": {
         "text-font": ["Noto Sans Regular"],
-        "text-size": 10,
-        "text-field": "{housenumber}"
+        "text-size": {
+          "stops": [
+            [
+              14,
+              0
+            ],
+            [
+              17,
+              9
+            ],
+            [
+              22,
+              11
+            ]
+          ]
+        },
+        "text-field": "{housenumber}",
+        "text-padding": 3,
+        "text-line-height": -0.15,
+        "symbol-avoid-edges": false,
+        "text-allow-overlap": false,
+        "text-ignore-placement": false
       },
       "paint": {"text-color": "rgba(119, 102, 85, 0.69)"}
     },

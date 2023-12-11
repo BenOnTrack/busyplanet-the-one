@@ -52,11 +52,11 @@
 				console.log("z",z)
 				console.log("y",y)
 				console.log("x",x)
-				const query=`[${source}+z+x+y]`
+				const query=`[${source}+${z}+${x}+${y}]`
 				console.log("query",query)
 				const dxres = tileDatabase.mapTiles
 					.where('[source+z+x+y]')
-					.equals([`${source}_nz`, z, x, y])
+					.equals([`${source}`, z, x, y])
 					.toArray()
 					.then((e) => {
 						if (e.length == 1) {
@@ -177,7 +177,7 @@
 			groupedFilteredRouteDataSetFeatures[feature.subclass].push(feature);
 		});
 
-		let bounds = new maplibre.LngLatBounds([174.398279, -37.104532], [175.33349, -36.828027]);
+		let bounds = new maplibre.LngLatBounds([174.37500000, -37.16031655], [175.78125000, -36.59788913]);
 		targetLayers = ['poi-food_and_drink', 'poi-lodging', 'poi-transportation', 'bookmarks-symbol'];
 
 		// Bookmarks
@@ -187,10 +187,10 @@
 			container: mapContainer,
 			style: style,
 			center: [lon, lat],
-			// maxTileCacheSize: 5000,
+			maxTileCacheSize: 5000,
 			refreshExpiredTiles: false,
 			doubleClickZoom: false,
-			maxBounds: bounds
+			// maxBounds: bounds
 		});
 
 		map.on('load', function () {
