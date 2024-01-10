@@ -2476,7 +2476,6 @@
       "source-layer": "label",
       "metadata": {"switch": false},
       "filter": [ "all", ["==", "class", "housenumber"] ],
-      "minzoom": 14,
       "layout": {
         "text-font": ["Noto Sans Regular"],
         "text-size": {
@@ -3477,7 +3476,7 @@
       ],
       "minzoom": 1,
       "layout": {
-        "icon-image": "{icon}",
+        "icon-image": "{icon}_purple",
         "icon-allow-overlap":true,
         "icon-overlap":"always",
         "text-anchor": "top",
@@ -3494,25 +3493,6 @@
         "text-halo-blur": 0.5,
         "text-halo-color": "#ffffff",
         "text-halo-width": 1
-      }
-    },
-    {
-      "id": "bookmarks-circle",
-      "type": "circle",
-      "source": "basemap",
-      "source-layer": "poi",
-      "metadata": {"switch": false},
-      "filter": [
-        "in",
-        ["id"],
-        [ "literal", [0] ]
-      ],
-      "minzoom": 1,
-      "paint": {
-        "circle-radius":10,
-        "circle-opacity": 0, 
-        "circle-stroke-color": "red",
-        "circle-stroke-width": 2
       }
     }
   ]
