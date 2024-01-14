@@ -5,13 +5,14 @@
   "sources": {
     "basemap": {
       "type": "vector",
-      "tiles": ["@basemapOrigin@/basemap/{z}/{x}/{y}.pbf"]
-  },
-      "route": {
-        "type": "vector",
-        "tiles": ["@basemapOrigin@/route/{z}/{x}/{y}.pbf"]
+      "tiles": ["@basemapOrigin@/basemap/{z}/{x}/{y}.pbf"],
+      "maxzoom":14
+    },
+    "route": {
+      "type": "vector",
+      "tiles": ["@basemapOrigin@/route/{z}/{x}/{y}.pbf"],
+      "maxzoom":14
     }
-    
   },
   "glyphs": "@staticOrigin@/glyphs/{fontstack}/{range}.pbf",
   "sprite": "@staticOrigin@/sprites/busyplanet",
@@ -143,7 +144,7 @@
       "type": "fill",
       "source": "basemap",
       "source-layer": "landcover",
-      "metadata": {"switch": false,"color":true},
+      "metadata": {"switch": false, "color": true},
       "filter": ["==", "subclass", "wood"],
       "paint": {
         "fill-antialias": {
@@ -169,7 +170,7 @@
       "type": "fill",
       "source": "basemap",
       "source-layer": "landcover",
-      "metadata": {"switch": false,"color":true},
+      "metadata": {"switch": false, "color": true},
       "filter": ["==", "subclass", "grass"],
       "paint": {"fill-color": "#d8e8c8", "fill-opacity": 1}
     },
@@ -395,7 +396,7 @@
       "type": "fill",
       "source": "basemap",
       "source-layer": "water",
-      "metadata": {"switch": false,"color":true},
+      "metadata": {"switch": false, "color": true},
       "filter": [
         "all",
         ["!=", "intermittent", "yes"],
@@ -413,16 +414,6 @@
       "filter": [ "all", ["==", "intermittent", "yes"] ],
       "layout": {"visibility": "visible"},
       "paint": {"fill-color": "hsl(210, 67%, 85%)", "fill-opacity": 0.7}
-    },
-    {
-      "id": "water-pattern",
-      "type": "fill",
-      "source": "basemap",
-      "source-layer": "water",
-      "metadata": {"switch": false},
-      "filter": ["all"],
-      "layout": {"visibility": "visible"},
-      "paint": { "fill-pattern": "wave", "fill-translate": [0, 2.5] }
     },
     {
       "id": "landcover_natural_wetland",
@@ -454,7 +445,7 @@
       "type": "fill",
       "source": "basemap",
       "source-layer": "landcover",
-      "metadata": {"switch": false,"color":true},
+      "metadata": {"switch": false, "color": true},
       "filter": [ "all", ["==", "subclass", "sand"] ],
       "layout": {"visibility": "visible"},
       "paint": {"fill-color": "rgba(245, 238, 188, 1)", "fill-opacity": 1}
@@ -464,8 +455,8 @@
       "type": "fill",
       "source": "basemap",
       "source-layer": "building",
-      "minzoom":13.1,
-      "metadata": {"switch": false,"color":true},
+      "minzoom": 13.1,
+      "metadata": {"switch": false, "color": true},
       "paint": {
         "fill-antialias": true,
         "fill-color": {
@@ -2476,24 +2467,11 @@
       "source-layer": "label",
       "metadata": {"switch": false},
       "filter": [ "all", ["==", "class", "housenumber"] ],
-      "minzoom": 14,
+      "minzoom": 17,
       "layout": {
         "text-font": ["Noto Sans Regular"],
         "text-size": {
-          "stops": [
-            [
-              14,
-              0
-            ],
-            [
-              17,
-              9
-            ],
-            [
-              22,
-              11
-            ]
-          ]
+          "stops": [ [17, 9], [22, 12] ]
         },
         "text-field": "{housenumber}",
         "text-padding": 3,
@@ -3477,9 +3455,9 @@
       ],
       "minzoom": 1,
       "layout": {
-        "icon-image": "{icon}",
-        "icon-allow-overlap":true,
-        "icon-overlap":"always",
+        "icon-image": "{icon}_purple",
+        "icon-allow-overlap": true,
+        "icon-overlap": "always",
         "text-anchor": "top",
         "text-field": "{name:latin}\n{name:nonlatin}",
         "text-font": ["Noto Sans Regular"],
@@ -3494,25 +3472,6 @@
         "text-halo-blur": 0.5,
         "text-halo-color": "#ffffff",
         "text-halo-width": 1
-      }
-    },
-    {
-      "id": "bookmarks-circle",
-      "type": "circle",
-      "source": "basemap",
-      "source-layer": "poi",
-      "metadata": {"switch": false},
-      "filter": [
-        "in",
-        ["id"],
-        [ "literal", [0] ]
-      ],
-      "minzoom": 1,
-      "paint": {
-        "circle-radius":10,
-        "circle-opacity": 0, 
-        "circle-stroke-color": "red",
-        "circle-stroke-width": 2
       }
     }
   ]

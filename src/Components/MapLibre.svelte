@@ -21,7 +21,8 @@
 		bookmarkdb,
 		addBookmark,
 		removeBookmark,
-		getAllBookmarks
+		getAllBookmarks,
+		getBookmarkDescriptionById
 	} from '$lib/bookmarks/bookmarkdb';
 
 	function getSourceFromProtocol(url:string) {
@@ -61,7 +62,7 @@
 					.then((e) => {
 						if (e.length == 1) {
 							callback(null, e[0].data, null, null);
-						} else callback(new Error(e));
+						} else callback(new Error(e.status));
 					})
 					.catch('NotFoundError', (e) => callback(new Error(e)));
 				return { cancel: () => {} };
@@ -82,7 +83,7 @@
 	export let zoom = 8;
 	let bounds = new maplibre.LngLatBounds([174.398279, -37.104532], [175.33349, -36.828027]);
 	$: if (map) {
-		map.flyTo({ center: [lon, lat], zoom: zoom, essential: true });
+		map.flyTo({ center: [lon, lat], zoom: zoom, essential: false });
 	}
 	// const { Map /*GeolocateControl */ } = maplibre;
 
@@ -112,6 +113,7 @@
 	}
 	// Tags
 	let tagList: string[] = [];
+	let updatedTagList: string[] = [];
 
 	// Bookamarks
 	let bookmarkIds: number[];
@@ -187,12 +189,12 @@
 			container: mapContainer,
 			style: style,
 			center: [lon, lat],
-			maxTileCacheSize: 5000,
 			refreshExpiredTiles: false,
-			doubleClickZoom: false,
+			doubleClickZoom: true,
 			// maxBounds: bounds
 		});
 
+		// map load
 		map.on('load', function () {
 			// control
 			map.addControl(new NavigationControl(), 'top-right');
@@ -206,7 +208,7 @@
 			);
 
 			// POI
-			map.on('click', (e) => {
+			map.on('click', async (e) => {
 				let features = map.queryRenderedFeatures(e.point, {
 					layers: targetLayers
 				});
@@ -214,12 +216,12 @@
 				else {
 					console.log(features[0]);
 					clickedSourceFeature = features[0];
-					updateFeatureInfo();
+					await updateFeatureInfo();
 					map.flyTo({
 						center: clickedSourceFeature.geometry.coordinates,
-						zoom: 20,
-						essential: true,
-						duration: 7000,
+						zoom: 17,
+						essential: false,
+						duration: 700,
 					});
 				}
 			});
@@ -254,7 +256,7 @@
 			// Add zoom event listener to the map
 			map.on('zoom', () => {
 				const currentZoom = map.getZoom();
-				console.log('Current Zoom:', currentZoom);
+				//console.log('Current Zoom:', currentZoom);
 			});
 
 			// Bookmark
@@ -268,7 +270,6 @@
 		console.log(bookmarkIdList);
 		const bookmarkIdFilter = ['in', ['id'], ['literal', bookmarkIdList]];
 		toggleLayerIDwithFilter(map, 'bookmarks-symbol', bookmarkIdFilter);
-		toggleLayerIDwithFilter(map, 'bookmarks-circle', bookmarkIdFilter);
 	}
 	async function saveBookmark() {
 		const currentId: number = clickedSourceFeature.id;
@@ -307,16 +308,26 @@
 		}
 		updateBookmark();
 	}
-	function updateFeatureInfo() {
+	async function updateFeatureInfo() {
 		tagList = [];
-		const propertiesToInclude = ['name:latin', 'class', 'subclass', 'category', 'cuisine'];
-
-		propertiesToInclude.forEach((property) => {
+		updatedTagList= []
+		const featurePropertiesToInclude = ['name:latin', 'class', 'subclass', 'category', 'cuisine'];
+		featurePropertiesToInclude.forEach((property) => {
 			const value = clickedSourceFeature['properties'][property];
 			if (value !== undefined && value !== null && value !== '') {
-				tagList.push(value);
+				updatedTagList.push(value);
 			}
 		});
+	
+		const id = clickedSourceFeature.id
+		console.log('clickedsourceid',id)
+		const value = await getBookmarkDescriptionById(id)
+		if (value !== undefined && value !== null && value !== '') {
+			console.log('value',value)
+			updatedTagList.push(value);
+		}
+		console.log('tagList',updatedTagList)
+		tagList=updatedTagList
 	}
 
 	async function navigateToEdit() {
@@ -358,7 +369,6 @@
 	<Button on:click={navigateToEdit}>Edit Bookmark</Button>
 	<div id="feature-info">
 		<!-- <RouteDropdown {map} {filteredRouteDataSetFeatures} {groupedFilteredRouteDataSetFeatures} /> -->
-
 		{#if tagList.length > 0}
 			{#each tagList as tag (tag)}
 				<Tag>{tag}</Tag>

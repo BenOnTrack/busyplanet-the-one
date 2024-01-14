@@ -3,9 +3,11 @@ import JSZip from "jszip";
 import { base } from '$app/paths';
 import tileDatabase from '$lib/tile_database';
 
+// ServiceWorker - only work in production
+
 function getSourceFromUrl(url:string) {
     // Extract the source ID from the file string
-    const match = url.match(/\/([^_]+)_[^/]+\.zip/);//url.match(/\/([^/]+)\.zip/);
+    const match = url.match(/\/([^-]+)-[^/]+\.zip/);//url.match(/\/([^/]+)\.zip/);
   
     // If a match is found, return the source ID, otherwise return null
     return match ? match[1] : "";
@@ -34,6 +36,7 @@ class DownloadWorker implements TileDownloadWorker {
             const data = await content.async('arraybuffer');
             tileDatabase!.mapTiles.put({ source, z, x, y, data });
         }
+        console.log('Loaded', fullURLPath)
         return true;
     }
 }

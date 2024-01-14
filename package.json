@@ -2,7 +2,7 @@
 	"name": "busyplanet",
 	"version": "0.0.1",
 	"scripts": {
-		"dev": "vite dev",
+		"dev": "vite dev --host 127.0.0.1",
 		"build": "vite build",
 		"package": "svelte-kit package",
 		"preview": "vite preview",

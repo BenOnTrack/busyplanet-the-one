@@ -26,7 +26,6 @@ export interface IDData {
 }
 
 // Function to add a bookmark to the database
-// Assuming you want to use the `async function` declaration
 export async function addBookmark(
   id: number,
   name: string,
@@ -65,3 +64,13 @@ export async function removeBookmark(id: number): Promise<void> {
   }
 };
 
+// Function to retrieve the description of a bookmark by ID
+export async function getBookmarkDescriptionById(id: number): Promise<string | undefined> {
+  try {
+    const bookmark = await bookmarkdb.ids.get(id);
+    return bookmark?.description;
+  } catch (error) {
+    console.error(`Error retrieving description for ID ${id} from the database: `, error);
+    return undefined;
+  }
+}
